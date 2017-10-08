@@ -83,42 +83,7 @@
 		document.getElementById("mapLinkWazeCliente").innerHTML = "<a href='" + hRef_wazeUrl + "'>Acesse o Waze</a>";		
 		
 		document.getElementById("mapCliente").innerHTML = "<img src='"+img_url+"'>";
-		
-		/*
-		console.log("ponto 1");
-		
-		    map = new OpenLayers.Map("mapCliente");
-		    
-		    console.log("ponto 2");
-		    
-		    map.addLayer(new OpenLayers.Layer.OSM());
-		
-		    console.log("ponto 3");
-		    
-		    var lonLat = new OpenLayers.LonLat( lat ,longi )
-		          .transform(
-		            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-		            map.getProjectionObject() // to Spherical Mercator Projection
-		          );
-		    
-		    console.log("ponto 4");
-		          
-		    var zoom=16;
-		
-		    var markers = new OpenLayers.Layer.Markers( "Markers" );
-		    map.addLayer(markers);
-		    
-		    console.log("ponto 5");
-		    
-		    markers.addMarker(new OpenLayers.Marker(lonLat));
-		    
-		    console.log("ponto 6");
-		    
-//		    map.setCenter (lonLat, zoom);
-		
-		    console.log("ponto 7");
-		**/		    
-		    
+				    
 		var hRef_TelUrl = $('input[name="telefone"]').val();
 		var hRef_TelUrl = hRef_TelUrl.replace(/\-/g,"");
 		var hRef_TelUrl = hRef_TelUrl.replace(/\ /g,"");
