@@ -23,10 +23,14 @@
 <link
 	href='/webdesk/customresources?cid=1&resourceName=temaFormulario/0.css'
 	type='text/css' rel='stylesheet' />
-
-
+	
 <script>
 
+	$( document ).ready(function() {
+		$('.t0').css({'background-color':'#ffffff'});
+		
+	});
+	
 	/*geolocalizacao*/
 	
 	function isMobile() {
@@ -38,11 +42,12 @@
 
 	function getLocationUpdate() {
 
-		alert("ponto 1");
-		
 		/* COLOCAR LOCAL PARA VENDA */		
 		var lmobile = isMobile();
 
+		var lat = $('input[name="latitude"]').val();
+		var longi = $('input[name="longitude"]').val();
+		
 		var cEnd = $('input[name="logradouro"]').val() + ",+,"
 		  		 + $('input[name="numero"]').val() + ",+,"
 				 + $('input[name="cidade"]').val() + ",+,"
@@ -50,9 +55,6 @@
 		
 		cEnd = cEnd.replace(/\ /g,"+");
 		cEnd = cEnd.replace(/\%20/g,"+");
-
-		alert("Endereço =>" + cEnd);
-		alert("ponto 2" + lmobile);
 
 		/* COLOCAR LOCAL PARA VENDA */
 		if (lmobile == true) {
@@ -68,19 +70,13 @@
 			
 		}
 		
-		alert("ponto 3");
+		img_url = encodeURI(img_url);
+				
+		var hRef_wazeUrl = 'https://waze.com/ul?ll=' + lat + ',' + longi;
+		hRef_wazeUrl = hRef_wazeUrl.replace(/\+/g," ");
+		hRef_wazeUrl = encodeURI(hRef_wazeUrl);
 		
-		var hRef_wazeUrl = 'https://waze.com/ul?q=' + cEnd.replace(/\,+,/g,"%20");
-		hRef_wazeUrl = hRef_wazeUrl.replace(/\+/g,"%20");
-		hRef_wazeUrl = hRef_wazeUrl.replace(/\ /g,"%20");
-		
-		alert("ponto 4444->>" + hRef_wazeUrl);
-
-
 		document.getElementById("mapLinkWazeCliente").innerHTML = "<a href='" + hRef_wazeUrl + "'>Acesse o Waze</a>";		
-		
-
-		alert("MAPA DO DESTINO" + img_url);
 		
 		document.getElementById("mapCliente").innerHTML = "<img src='"+img_url+"'>";
 				
@@ -97,9 +93,6 @@
 		document.getElementById("linkTelefone").innerHTML = "<a href='tel://" + hRef_TelUrl + "'>Ligar Telefone</a>";
 		
 		document.getElementById("linkCelular").innerHTML = "<a href='tel://" + hRef_CelUrl + "'>Ligar Celular</a>";
-		
-		alert("ponto 4");
-
 		
 		/* COLOCAR LOCAL PARA VENDA */
 	
@@ -133,7 +126,7 @@
 
 		$('input[name="checkInLatitude"]').val(lat);
 
-		$('input[name="checkInLongitude"]').val(longi);
+		$('input[name="checkLongitude"]').val(longi);
 
 		var lmobile = isMobile();
 
@@ -189,8 +182,8 @@
 			<div class="form-input">
 				<div class="form-group">
 					<label>Campanha</label><input type="text" class="form-control"
-						name="codCampanha" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="codCampanha" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -200,7 +193,7 @@
 				<div class="form-group">
 					<label>Código Cliente</label><input type="text"
 						class="form-control" name="codCliente" value="" placeholder=""
-						data-size="small" style="width: 25%;">
+						data-size="medium" style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -230,8 +223,8 @@
 			<div class="form-input">
 				<div class="form-group">
 					<label>CNPJ</label><input type="text" class="form-control"
-						name="cnpj" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="cnpj" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -257,8 +250,8 @@
 					<div id="linkTelefone"></div>
 					
 					<input type="text" class="form-control"
-						name="telefone" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="telefone" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -272,8 +265,8 @@
 					<div id="linkCelular"></div>
 					
 					<input type="text" class="form-control"
-						name="celular" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="celular" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -303,8 +296,8 @@
 			<div class="form-input">
 				<div class="form-group">
 					<label>Número</label><input type="text" class="form-control"
-						name="numero" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="numero" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -323,8 +316,8 @@
 			<div class="form-input">
 				<div class="form-group">
 					<label>CEP</label><input type="text" class="form-control"
-						name="CEP" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="CEP" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -343,8 +336,8 @@
 			<div class="form-input">
 				<div class="form-group">
 					<label>Estado</label><input type="text" class="form-control"
-						name="estado" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="estado" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -353,8 +346,8 @@
 			<div class="form-input">
 				<div class="form-group">
 					<label>Latitude</label><input type="text" class="form-control"
-						name="latitude" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="latitude" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -363,8 +356,8 @@
 			<div class="form-input">
 				<div class="form-group">
 					<label>Longitude</label><input type="text" class="form-control"
-						name="longitude" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="longitude" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -373,8 +366,8 @@
 			<div class="form-input">
 				<div class="form-group">
 					<label>Tipo Cliente</label><input type="text" class="form-control"
-						name="tpCliente" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="tpCliente" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -383,8 +376,8 @@
 			<div class="form-input">
 				<div class="form-group">
 					<label>Valor Vendas</label><input type="text" class="form-control"
-						name="vlVendas" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="vlVendas" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -394,7 +387,7 @@
 				<div class="form-group">
 					<label>Nr de Dias Sem Vendas</label><input type="text"
 						class="form-control" name="nrDiasSemVenda" value="" placeholder=""
-						data-size="small" style="width: 25%;">
+						data-size="medium" style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -403,8 +396,8 @@
 			<div class="form-input">
 				<div class="form-group">
 					<label>CNAE</label><input type="text" class="form-control"
-						name="cnae" value="" placeholder="" data-size="small"
-						style="width: 25%;">
+						name="cnae" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -424,7 +417,7 @@
 				<div class="form-group">
 					<label>Tamanho - Nr Funcionários</label><input type="text"
 						class="form-control" name="tamanhoFunc" value="" placeholder=""
-						data-size="small" style="width: 25%;">
+						data-size="medium" style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -434,7 +427,7 @@
 				<div class="form-group">
 					<label>Código Representante</label><input type="text"
 						class="form-control" name="codRep" value="" placeholder=""
-						data-size="small" style="width: 25%;">
+						data-size="medium" style="width: 50%;">
 				</div>
 			</div>
 		</div>
@@ -457,7 +450,7 @@
 				
 					<label>Valor de Venda</label>										
 					<input type="text" name="vlVendido" value="" placeholder="" class="form-control"
-					data-size="small" style="width: 25%;" data-only-numbers="true" maxlength="22" mask="#00.000.000.000.000,00">
+					data-size="medium" style="width: 50%;" data-only-numbers="true" maxlength="22" mask="#00.000.000.000.000,00">
 					
 				</div>
 			</div>
@@ -487,18 +480,18 @@
 				<div class="form-group">
 					<label>Check In Latitude</label><input type="text"
 						class="form-control" name="checkInLatitude" value=""
-						placeholder="" data-size="small" style="width: 25%;">
+						placeholder="" data-size="medium" style="width: 50%;">
 				</div>
 			</div>
 		</div>
 
 		<div class="form-field" data-type="textbox" data-show-properties=""
-			data-field-name="checkInLongitude">
+			data-field-name="checkLongitude">
 			<div class="form-input">
 				<div class="form-group">
 					<label>Check In Longitude</label><input type="text"
 						class="form-control" name="checkLongitude" value="" placeholder=""
-						data-size="small" style="width: 25%;">
+						data-size="medium" style="width: 50%;">
 				</div>
 			</div>
 		</div>

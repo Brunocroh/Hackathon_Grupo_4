@@ -1,6 +1,13 @@
 function enableFields(form) {
 	var activity = getValue('WKNumState');
 	if (activity > 3) {
+		form.setEnabled('codCampanha', false);
+		form.setEnabled('telefone', false);
+		form.setEnabled('celular', false);
+		form.setEnabled('nrDiasSemVenda', false);
+		form.setEnabled('tamanhoFunc', false);
+		form.setEnabled('checkInLatitude', false);
+		form.setEnabled('checkLongitude', false);
 		form.setEnabled('codCliente', false);
 		form.setEnabled('razaoSocial', false);
 		form.setEnabled('nomeFantasia', false);
