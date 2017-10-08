@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Form</title>
+
+<link rel="stylesheet" type="text/css"
+	href="/resources/style-guide/css/fluig-style-guide.min.css">
+<script src="/resources/js/jquery/jquery.js"></script>
+<script src="/resources/js/jquery/jquery-ui.min.js"></script>
+<script src="/resources/js/mustache/mustache-min.js"></script>
+<script src="/resources/style-guide/js/fluig-style-guide.min.js"></script>
+
+<!-- CUSTOM -->
+<link href="/resources/style-guide/css/fluig-style-guide-filter.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="/resources/style-guide/css/fluig-style-guide-ratingstars.min.css"
+	rel="stylesheet" type="text/css">
+<script src="/resources/style-guide/js/fluig-style-guide-filter.min.js"></script>
+<script
+	src="/resources/style-guide/js/fluig-style-guide-ratingstars.min.js"></script>
+
+<link
+	href='/webdesk/customresources?cid=1&resourceName=temaFormulario/0.css'
+	type='text/css' rel='stylesheet' />
+
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+	
+<script>
+
+	$( document ).ready(function() {
+		$('.t0').css({'background-color':'#ffffff'});
+		
+	});
+	
+	/*geolocalizacao*/
+	
+	function isMobile() {
+		var userAgent = navigator.userAgent.toLowerCase();
+		if (userAgent
+				.search(/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i) != -1)
+			return true;
+	}
+
+	function getLocationUpdate() {
+
+		/* COLOCAR LOCAL PARA VENDA */		
+		var lmobile = isMobile();
+
+		var lat = $('input[name="latitude"]').val();
+		var longi = $('input[name="longitude"]').val();
+		
+		var cEnd = $('input[name="logradouro"]').val() + ",+,"
+		  		 + $('input[name="numero"]').val() + ",+,"
+				 + $('input[name="cidade"]').val() + ",+,"
+				 + $('input[name="estado"]').val();
+		
+		cEnd = cEnd.replace(/\ /g,"+");
+		cEnd = cEnd.replace(/\%20/g,"+");
+
+		/* COLOCAR LOCAL PARA VENDA */
+		if (lmobile == true) {
+
+			var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
+					+ cEnd
+					+ "&zoom=16&size=300x200&markers=" + cEnd + "&sensor=false&key=AIzaSyA_hcdMJgB3vGhrf7qxVV3q_Fls3-po_xA";
+			
+		} else {
+			
+			var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
+					+ cEnd
+					+ "&zoom=16&size=501x301&markers=" + cEnd + "&sensor=false&key=AIzaSyA_hcdMJgB3vGhrf7qxVV3q_Fls3-po_xA";
+			
+		}
+		
+		
+		img_url = encodeURI(img_url);
+				
+		var hRef_wazeUrl = 'https://waze.com/ul?ll=' + lat + ',' + longi;
+		hRef_wazeUrl = hRef_wazeUrl.replace(/\+/g," ");
+		hRef_wazeUrl = encodeURI(hRef_wazeUrl);
+		
+		document.getElementById("mapLinkWazeCliente").innerHTML = "<a href='" + hRef_wazeUrl + "'>Acesse o Waze</a>";		
+		
+		document.getElementById("mapCliente").innerHTML = "<img src='"+img_url+"'>";
+				    
+		var hRef_TelUrl = $('input[name="telefone"]').val();
+		var hRef_TelUrl = hRef_TelUrl.replace(/\-/g,"");
+		var hRef_TelUrl = hRef_TelUrl.replace(/\ /g,"");
+		var hRef_TelUrl = hRef_TelUrl.replace(/\./g,"");
+		
+		var hRef_CelUrl = $('input[name="celular"]').val();
+		var hRef_CelUrl = hRef_CelUrl.replace(/\-/g,"");
+		var hRef_CelUrl = hRef_CelUrl.replace(/\ /g,"");
+		var hRef_CelUrl = hRef_CelUrl.replace(/\./g,"");
+		
+		document.getElementById("linkTelefone").innerHTML = "<a href='tel://" + hRef_TelUrl + "'>Ligar Telefone</a>";
+		
+		document.getElementById("linkCelular").innerHTML = "<a href='tel://" + hRef_CelUrl + "'>Ligar Celular</a>";
+		
+		/* COLOCAR LOCAL PARA VENDA */
+	
+		if (navigator.geolocation) {
+			// timeout at 60000 milliseconds (60 seconds)
+			var options = {
+				timeout : 1000000
+			};
+
+			var geoLoc = navigator.geolocation;
+
+			watchID = geoLoc.watchPosition(showLocation, errorHandler, options);
+
+		} else {
+			console.log("Desculpe, esse dispositivo não suporta geolocalização!");
+		}
+
+	}
+
+	function showLocation(position) {
+
+		if ($('input[name="checkInLatitude"]').val() != ""
+				&& $('input[name="checkInLongitude"]').val() != "") {
+
+			return;
+
+		}
+
+		var lat = position.coords.latitude;
+		var longi = position.coords.longitude;
+
+		$('input[name="checkInLatitude"]').val(lat);
+
+		$('input[name="checkLongitude"]').val(longi);
+
+		var lmobile = isMobile();
+
+	    var latlon= lat +","+longi;
+		
+	      
+	    if (lmobile == true) 
+		{
+		  
+	      var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
+		        +latlon+"&zoom=16&size=251x251&sensor=true&markers=label:L%7C"+latlon;
+		  
+		}
+	    else {
+		      var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
+	   		        +latlon+"&zoom=16&size=501x301&sensor=false&markers=label:L%7C"+latlon;
+	    	  
+	    	  
+	    }
+
+		document.getElementById("mapcheckin").innerHTML = "<img src='"+img_url+"'>";
+
+	}
+
+	function errorHandler(err) {
+
+		if (err.code == 1) {
+			console.log("Erro: Acesso negado!");
+		} else if (err.code == 2) {
+			console.log("Error: Posição está indisponível!");
+		}
+
+	}
+	
+</script>
+
+
+</head>
+<body class="fluig-style-guide" onload="getLocationUpdate();">
+
+	<form
+		class="totvs-form grid vertical create-form-components ui-sortable t0"
+		name="createFormComponents"
+		style="padding-left: 10px; padding-right: 10px;">
+		<img
+			src="http://fluig04.hackathon2017.fluig.io:8080/portal/api/servlet/image/1/custom/logo_image.png"
+			alt="Logo" id="logo" style="max-height: 50px; max-width: 250px;">
+		<h1 class="title-form-application">Formulário Ações do Mapa da
+			Venda</h1>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="codCampanha"
+			style="position: relative; left: 0px; top: 0px;">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Campanha</label><input type="text" class="form-control"
+						name="codCampanha" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="nmCampanha"
+			style="position: relative; left: 0px; top: 0px;">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Nome Campanha</label><input type="text" class="form-control"
+						name="nmCampanha" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="codCliente">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Código Cliente</label><input type="text"
+						class="form-control" name="codCliente" value="" placeholder=""
+						data-size="medium" style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="razaoSocial">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Razão Social</label><input type="text" class="form-control"
+						name="razaoSocial" value="" placeholder="" data-size="big">
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="nomeFantasia">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Nome Fantasia</label><input type="text" class="form-control"
+						name="nomeFantasia" value="" placeholder="" data-size="big">
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="cnpj">
+			<div class="form-input">
+				<div class="form-group">
+					<label>CNPJ</label><input type="text" class="form-control"
+						name="cnpj" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+				
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="telefone">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Telefone</label>
+					
+					<div id="linkTelefone"></div>
+					
+					<input type="text" class="form-control"
+						name="telefone" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="celular">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Celular</label>
+					
+					<div id="linkCelular"></div>
+					
+					<input type="text" class="form-control"
+						name="celular" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+			
+		<div class="form-group">
+
+			<label>Endereço do Cliente</label>
+
+			<div id="mapLinkWazeCliente"></div>
+
+			<div id="mapCliente"></div>
+				
+		</div>
+		
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="logradouro"
+			style="position: relative; left: 0px; top: 0px;">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Logradouro</label><input type="text" class="form-control"
+						name="logradouro" value="" placeholder="" data-size="big">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="numero">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Número</label><input type="text" class="form-control"
+						name="numero" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="bairro">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Bairro</label><input type="text" class="form-control"
+						name="bairro" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="CEP">
+			<div class="form-input">
+				<div class="form-group">
+					<label>CEP</label><input type="text" class="form-control"
+						name="CEP" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="cidade">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Cidade</label><input type="text" class="form-control"
+						name="cidade" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="estado">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Estado</label><input type="text" class="form-control"
+						name="estado" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="latitude">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Latitude</label><input type="text" class="form-control"
+						name="latitude" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="longitude">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Longitude</label><input type="text" class="form-control"
+						name="longitude" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="tpCliente">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Tipo Cliente</label><input type="text" class="form-control"
+						name="tpCliente" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="vlVendas">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Valor Vendas</label><input type="text" class="form-control"
+						name="vlVendas" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="nrDiasSemVenda">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Nr de Dias Sem Vendas</label><input type="text"
+						class="form-control" name="nrDiasSemVenda" value="" placeholder=""
+						data-size="medium" style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="cnae">
+			<div class="form-input">
+				<div class="form-group">
+					<label>CNAE</label><input type="text" class="form-control"
+						name="cnae" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="cnaeDescricao">
+			<div class="form-input">
+				<div class="form-group">
+					<label>CNAE - Descrição</label><input type="text"
+						class="form-control" name="cnaeDescricao" value="" placeholder=""
+						data-size="big" style="width: 100%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="tamanhoFunc">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Tamanho - Nr Funcionários</label><input type="text"
+						class="form-control" name="tamanhoFunc" value="" placeholder=""
+						data-size="medium" style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="codRep">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Código Representante</label><input type="text"
+						class="form-control" name="codRep" value="" placeholder=""
+						data-size="medium" style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="nmRep">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Representante Nome</label><input type="text"
+						class="form-control" name="nmRep" value="" placeholder=""
+						data-size="medium" style="width: 50%;">
+				</div>
+			</div>
+		</div>
+
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="vlVendido">
+			
+			<div class="form-input">
+				<div class="form-group">
+				
+					<label>Valor de Venda</label>										
+					<input type="text" name="vlVendido" value="" placeholder="" class="form-control"
+					data-size="medium" style="width: 50%;" data-only-numbers="true" maxlength="22" mask="#00.000.000.000.000,00">
+					
+				</div>
+			</div>
+		</div>
+	
+		<div class="form-field" data-type="combo" data-show-properties=""
+			data-field-name="resultadoAcao">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Resultado Ação</label><select class="form-control"
+						name="resultadoAcao"><option value="1">1-Ação
+							Não Realizada</option>
+						<option value="2">2-Ação
+							Realizada Com Sucesso</option>
+						<option value="3">3-Ação
+							Realizada Sem Sucesso</option></select>
+				</div>
+			</div>
+		</div>
+
+		<div id="mapcheckin"></div>
+		
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="checkInLatitude">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Check In Latitude</label><input type="text"
+						class="form-control" name="checkInLatitude" value=""
+						placeholder="" data-size="medium" style="width: 50%;">
+				</div>
+			</div>
+		</div>
+
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="checkLongitude">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Check In Longitude</label><input type="text"
+						class="form-control" name="checkLongitude" value="" placeholder=""
+						data-size="medium" style="width: 50%;">
+				</div>
+			</div>
+		</div>
+
+
+	</form>
+
+
+	<script type="text/javascript">
+		var keyDown = false, ctrl = 17, vKey = 86, Vkey = 118;
+
+		$(document).keydown(function(e) {
+			if (e.keyCode == ctrl)
+				keyDown = true;
+		}).keyup(function(e) {
+			if (e.keyCode == ctrl)
+				keyDown = false;
+		});
+
+		$('[data-only-numbers]').on('keypress', function(e) {
+			if (!e) {
+				var e = window.event;
+			}
+
+			if (e.keyCode > 0 && e.which == 0) {
+				return true;
+			}
+
+			if (e.keyCode) {
+				code = e.keyCode;
+			} else if (e.which) {
+				code = e.which;
+			}
+
+			if (code == 46) {
+				return true;
+			}
+
+			var character = String.fromCharCode(code);
+			if (character == '\b' || character == ' ' || character == '\t') {
+				return true;
+			}
+			if (keyDown && (code == vKey || code == Vkey)) {
+				return (character);
+			} else {
+				return (/[0-9]$/.test(character));
+			}
+		}).on('focusout', function(e) {
+			var $this = $(this);
+			if ($this.val() == "") {
+				return true;
+			}
+			$this.val($this.val().replace(/[^0-9\.]/g, ''));
+		}).on('paste', function(e) {
+			var $this = $(this);
+			setTimeout(function() {
+				$this.val($this.val().replace(/[^0-9\.]/g, ''));
+			}, 5);
+		});
+
+		$('.create-form-components')
+				.on(
+						'keyup',
+						'input[required="required"][type="text"], input[required="required"][type="number"], input[required="required"][type="date"], textarea[required="required"]',
+						function() {
+							validationFieldsForm($(this), $(this).parents(
+									'.form-field').data('type'));
+						});
+
+		$('.create-form-components')
+				.on(
+						'change',
+						'input[required="required"][type="checkbox"], input[required="required"][type="radio"], select[required="required"]',
+						function() {
+							validationFieldsForm($(this), $(this).parents(
+									'.form-field').data('type'));
+						});
+
+		function validationFieldsForm(field, type) {
+			if (type === "checkbox" || type === "radio") {
+				if (!field.is(':checked')) {
+					field.parents('.form-field').addClass('required');
+				} else {
+					field.parents('.form-field').removeClass('required');
+				}
+			} else {
+				if (!field.val().trim()) {
+					field.parents('.form-field').addClass('required');
+				} else {
+					field.parents('.form-field').removeClass('required');
+				}
+			}
+		}
+
+		var $zoomPreview = $(".zoom-preview");
+		if ($zoomPreview.length) {
+			$zoomPreview.parent().removeClass("input-group");
+			$zoomPreview.remove();
+		}
+
+		var ratings = $(".rating");
+		if (ratings.length > 0)
+			ratingStars(ratings);
+		function ratingStars(stars) {
+			$.each(stars, function(i, obj) {
+				var field = $(this).closest(".form-group")
+						.find(".rating-value");
+				var tgt = $(obj);
+				tgt.html("");
+				var rating = FLUIGC.stars(tgt, {
+					value : field.val()
+				});
+				rating.on("click", function(o) {
+					field.val($(this).index() + 1);
+				});
+			});
+		}
+
+		$.each($("[data-date]"), function(i, o) {
+			var id = $(o).attr("id");
+			FLUIGC.calendar("#" + id);
+		});
+
+		$(document).ready(function() {
+			$.each($("[data-date]"), function(i, o) {
+				var id = $(o).attr("id");
+				if ($("#" + id).attr("readonly")) {
+					$("#" + id).data('DateTimePicker').disable();
+				}
+			});
+		});
+	</script>
+</body>
+</html>
