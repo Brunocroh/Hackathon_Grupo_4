@@ -115,14 +115,18 @@
 							    </div>
 							</div>
 							<div class="row">
-								<div class="col-md-12 form-group">
+								<div class="col-md-8 form-group">
 							        <lable for="txtNomeCampanha">Nome da Campanha</lable>
 							        <input type="text" id="txtNomeCampanha" class="form-control"></input>
+							    </div>
+							    <div class="col-md-4 form-group">
+							        <lable>&nbsp;</lable>
+							        <button type="button" class="btn btn-primary" class="form-control" data-toggle="button" id="btnIniciarCampanha" data-view-iniciarCampanha>Criar</button>
 							    </div>
 							</div>
 							<div class="row">
 								<div class="col-md-12 form-group">
-							        <button type="button" class="btn btn-primary" class="form-control" data-toggle="button" id="btnIniciarCampanha" data-view-iniciarCampanha>Iniciar Campanha</button>
+							        <button type="button" class="btn btn-primary" class="form-control" data-toggle="button" id="btnFiltrar" data-view-filtrar>Filtrar</button>
 							    </div>
 							</div>
 				        </div>

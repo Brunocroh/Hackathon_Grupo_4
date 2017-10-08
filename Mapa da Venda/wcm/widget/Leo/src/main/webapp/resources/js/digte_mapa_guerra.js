@@ -12,6 +12,7 @@ var MapaGuerra = SuperWidget.extend({
     arrayTamanhos: [],
     arrayCnae: [],
     arrayCampanha: [],
+    mapaLoad: null,
     xmlWorkflowEngineService: {
         "startProcess": "",
 	},
@@ -24,7 +25,8 @@ var MapaGuerra = SuperWidget.extend({
             'view-iniciarCampanha' : ['click_clickIniciarCampanha'],
             'view-checkTamanho' : ['click_checkTamanho'],
             'view-checkTamanhoTodos' : ['click_checkTamanhoTodos'],
-            'view-changeRange' : ['change_changeRange']
+            'view-changeRange' : ['change_changeRange'],
+            'view-filtrar' : ['click_filtrar']
         }
     },
     
@@ -97,7 +99,6 @@ var MapaGuerra = SuperWidget.extend({
         	
         	_this.clientesMap.push(representanteMap);
         	
-        	
         	if (tipoCliente == "1" || tipoCliente == "3") {
         		_this.loadClientesByRepresentante();
         	}
@@ -124,6 +125,28 @@ var MapaGuerra = SuperWidget.extend({
         	longitude: representanteMap.longitude,
         	zoom: numeroZoom
         });
+       
+       if (_this.representante != null) {
+       	var cityCenterLatLng = new google.maps.LatLng(representanteMap.latitude, representanteMap.longitude);  
+	  	var c = {  
+	  	   strokeColor: "#ff0000",  
+	  	   strokeOpacity: 0.6,  
+	  	   strokeWeight: 1,  
+	  	   fillColor: "#b0c4de",  
+	  	   fillOpacity: 0.50,  
+	  	   map: meuMapa.data('gMap.reference'),  
+	  	   center: cityCenterLatLng,  
+	  	   radius: parseInt(_this.representante.raio) * 1000,  
+	  	   editable:false  
+	  	};
+	
+	  	var circle = new google.maps.Circle(c);
+       }
+       
+       
+       if (_this.mapaLoad != null) {
+    	   _this.mapaLoad.hide();
+       }
     },
     
     loadClientesByRepresentante: function() {
@@ -143,10 +166,22 @@ var MapaGuerra = SuperWidget.extend({
         		if ((_this.arrayTamanhos.length == 0 || _this.arrayTamanhos.indexOf(el.tamanhoFunc) >= 0) && (range == "" || parseInt(el.nrDiasSemVenda) > parseInt(range)) && (_this.arrayCnae.length == 0 || _this.arrayCnae.indexOf(el.cnae) >= 0)) {
         			_this.arrayCampanha.push(el);
         			
+        			var html = '';
+
+                	html += '<div style="width: 300px;"><h4 style="margin-bottom: 8px;">'+el.nomeFantasia+'</h4>';
+                	html += 	'<br/>'+el.cnpj;
+                	html += 	'<br/>'+el.logradouro + ' ' + el.numero;  
+                	html += 	'<br/>'+el.bairro;
+                	html += 	'<br/>'+el.CEP;
+                	html += 	'<br/>'+el.cidade+' - '+el.estado;
+                	html += 	'<br/><a href="tel://' + el.telefone + '">Ligar Telefone</a>';
+                	html += 	'<br/><a href="tel://' + el.celular + '">Ligar Celular</a>';
+                	html += '</div>';
+        			
         			_this.clientesMap.push({
                     	latitude: el.latitude,
                     	longitude: el.longitude,
-                        html: '<div style="width: 300px;"><h4 style="margin-bottom: 8px;">'+el.nomeFantasia+'</h4></div>',
+                        html: html,
                         icon: _this.getIconColor("2")
                     });
         		}
@@ -185,10 +220,21 @@ var MapaGuerra = SuperWidget.extend({
     		
     		var nome = el.nomeFantasia == null || el.nomeFantasia == 'null' ? el.razaoSocial : el.nomeFantasia;
     		
+    		var html = '';
+
+        	html += '<div style="width: 300px;"><h4 style="margin-bottom: 8px;">'+nome+'</h4>';
+        	html += 	'<br/>'+el.cnpj;
+        	html += 	'<br/>'+el.logradouro + ' ' + el.numero;  
+        	html += 	'<br/>'+el.bairro;
+        	html += 	'<br/>'+el.cep;
+        	html += 	'<br/>'+el.cidade;
+        	html += 	'<br/>Qt Funcionários: '+el.qtdeFuncionarios;
+        	html += '</div>';
+    		
     		_this.clientesMap.push({
             	latitude: el.latitude,
             	longitude: el.longitude,
-                html: '<div style="width: 300px;"><h4 style="margin-bottom: 8px;">'+nome+'</h4></div>',
+                html: html,
                 icon: _this.getIconColor("1")
             });
     	});
@@ -313,19 +359,19 @@ var MapaGuerra = SuperWidget.extend({
         	_this.representante = null;
         }
     	    	
-    	_this.vLoadMap();
+    	//_this.vLoadMap();
     },
     
     changeTipoCliente: function(el) {
     	var _this = this;
     	
-    	_this.vLoadMap();
+    	//_this.vLoadMap();
     },
     
     changeRange: function(el) {
     	var _this = this;
     	
-    	_this.vLoadMap();
+    	//_this.vLoadMap();
     },
     
     vMode: function() {
@@ -347,7 +393,7 @@ var MapaGuerra = SuperWidget.extend({
         		$('.checkAreaTodos', _this.sGetContext()).prop("checked", false);
         	}
     		
-    		_this.vLoadMap();
+    		//_this.vLoadMap();
     	});
     	
     	$(document).on('click', '.checkAreaTodos', function(el) {
@@ -364,7 +410,7 @@ var MapaGuerra = SuperWidget.extend({
         		$('.checkCnae', _this.sGetContext()).prop("checked", false);
         	}
     		    		
-    		_this.vLoadMap();
+    		//_this.vLoadMap();
     	});
     	
     	
@@ -447,7 +493,7 @@ var MapaGuerra = SuperWidget.extend({
     		$('.checkTamanhoTodos', _this.sGetContext()).prop("checked", false);
     	}
     	
-    	_this.vLoadMap();
+    	//_this.vLoadMap();
     },
     
     checkTamanhoTodos: function(el) {
@@ -466,7 +512,7 @@ var MapaGuerra = SuperWidget.extend({
     		$('.checkTamanho', _this.sGetContext()).prop("checked", false);
     	}
     	
-    	_this.vLoadMap();
+    	//_this.vLoadMap();
     },
     
     checkAreaTodos: function(el) {
@@ -479,7 +525,7 @@ var MapaGuerra = SuperWidget.extend({
     		$('.checkCnae', _this.sGetContext()).prop("checked", false);
     	}
     	
-    	_this.vLoadMap();
+    	//_this.vLoadMap();
     },
         
     startProcess: function() {
@@ -569,9 +615,6 @@ var MapaGuerra = SuperWidget.extend({
                 _this.xmlWorkflowEngineService["startProcess"].find("[name=tpCliente]").text("Novo");
             }
             
-            
-            
-            
             WCMAPI.Create({
                 async: true,
                 url: WCMAPI.serverURL + "/webdesk/ECMWorkflowEngineService?wsdl",
@@ -589,6 +632,15 @@ var MapaGuerra = SuperWidget.extend({
                 },
             });
     	});
+    },
+    
+    filtrar: function() {
+    	var _this = this;
+    	
+    	_this.mapaLoad = FLUIGC.loading($('#MapaGuerra_' + _this.instanceId));
+        _this.mapaLoad.show();
+    	
+    	_this.vLoadMap();
     },
     
     limpaFiltros: function() {
