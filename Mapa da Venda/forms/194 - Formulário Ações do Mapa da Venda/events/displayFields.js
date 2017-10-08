@@ -10,6 +10,10 @@ function displayFields(form, customHTML) {
 				.append('$(\'*[name="resultadoAcao"]\').closest("li").hide()');
 		customHTML.append('</script>');
 	}
+	
+	if (activity == 3 || activity == 0) {
+		form.setValue('resultadoAcao', '1');
+	}	
 		
 	if (activity == 4) {
 		customHTML.append('<script>');

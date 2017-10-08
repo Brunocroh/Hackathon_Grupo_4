@@ -1,0 +1,117 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.workflow.ecm.technology.totvs.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ws:startProcess>
+         <username />
+		<password />
+         <companyId></companyId>
+         <processId></processId>
+         <choosedState></choosedState>
+         <colleagueIds>
+            <item>fluig</item>
+         </colleagueIds>
+         <comments></comments>
+         <userId></userId>
+         <completeTask>true</completeTask>
+         <attachments>
+         </attachments>
+         <cardData>
+         	<item>
+               <item>CEP</item>
+               <item name="CEP"></item>
+            </item>
+         	<item>
+               <item>bairro</item>
+               <item name="bairro"></item>
+            </item>
+            <item>
+               <item>celular</item>
+               <item name="celular"></item>
+            </item>
+            <item>
+               <item>cidade</item>
+               <item name="cidade"></item>
+            </item>
+            <item>
+               <item>cnae</item>
+               <item name="cnae"></item>
+            </item>
+            <item>
+               <item>cnaeDescricao</item>
+               <item name="cnaeDescricao"></item>
+            </item>
+            <item>
+               <item>cnpj</item>
+               <item name="cnpj"></item>
+            </item>
+            <item>
+               <item>codCampanha</item>
+               <item name="codCampanha"></item>
+            </item>
+            <item>
+               <item>codCliente</item>
+               <item name="codCliente"></item>
+            </item>
+            <item>
+               <item>codRep</item>
+               <item name="codRep"></item>
+            </item>
+            <item>
+               <item>estado</item>
+               <item name="estado"></item>
+            </item>
+            <item>
+               <item>latitude</item>
+               <item name="latitude"></item>
+            </item>
+            <item>
+               <item>longitude</item>
+               <item name="longitude"></item>
+            </item>
+            <item>
+               <item>logradouro</item>
+               <item name="logradouro"></item>
+            </item>
+            <item>
+               <item>nmRep</item>
+               <item name="nmRep"></item>
+            </item>
+            <item>
+               <item>nomeFantasia</item>
+               <item name="nomeFantasia"></item>
+            </item>
+            <item>
+               <item>nrDiasSemVenda</item>
+               <item name="nrDiasSemVenda"></item>
+            </item>
+            <item>
+               <item>numero</item>
+               <item name="numero"></item>
+            </item>
+            <item>
+               <item>razaoSocial</item>
+               <item name="razaoSocial"></item>
+            </item>
+            <item>
+               <item>tamanhoFunc</item>
+               <item name="tamanhoFunc"></item>
+            </item>
+            <item>
+               <item>telefone</item>
+               <item name="telefone"></item>
+            </item>
+            <item>
+               <item>tpCliente</item>
+               <item name="tpCliente"></item>
+            </item>
+            <item>
+               <item>nmCampanha</item>
+               <item name="nmCampanha"></item>
+            </item>
+         </cardData>
+         <appointment>
+         </appointment>
+         <managerMode>false</managerMode>
+      </ws:startProcess>
+   </soapenv:Body>
+</soapenv:Envelope>

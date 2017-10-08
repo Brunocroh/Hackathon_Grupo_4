@@ -28,7 +28,7 @@
     <processDefinitionVersionPK>
       <companyId>1</companyId>
       <processId>Ações do Mapa da Venda </processId>
-      <version>6</version>
+      <version>8</version>
     </processDefinitionVersionPK>
     <versionDescription></versionDescription>
     <formId>194</formId>
@@ -75,8 +75,8 @@
       <notifyAuthorityFollowUp>true</notifyAuthorityFollowUp>
       <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
       <automatic>false</automatic>
-      <positionX>212</positionX>
-      <positionY>83</positionY>
+      <positionX>180</positionX>
+      <positionY>77</positionY>
       <forecastedEffortType>0</forecastedEffortType>
       <forecastedEffort>0</forecastedEffort>
       <notifyManagerFollowUp>false</notifyManagerFollowUp>
@@ -174,8 +174,8 @@
       <notifyAuthorityFollowUp>true</notifyAuthorityFollowUp>
       <notifyRequisitionerFollowUp>false</notifyRequisitionerFollowUp>
       <automatic>false</automatic>
-      <positionX>142</positionX>
-      <positionY>326</positionY>
+      <positionX>140</positionX>
+      <positionY>290</positionY>
       <forecastedEffortType>0</forecastedEffortType>
       <forecastedEffort>0</forecastedEffort>
       <notifyManagerFollowUp>false</notifyManagerFollowUp>
@@ -203,8 +203,8 @@
         <version>1</version>
         <sequence>6</sequence>
       </processStatePK>
-      <stateName>Visita Concluida Com Venda</stateName>
-      <stateDescription>Visita Concluida Com Venda</stateDescription>
+      <stateName>Ação Realizada Com Sucesso</stateName>
+      <stateDescription>Ação Realizada Com Sucesso</stateDescription>
       <instruction>Atividade final do processo</instruction>
       <deadlineTime>0</deadlineTime>
       <joint>false</joint>
@@ -250,8 +250,8 @@
         <version>1</version>
         <sequence>8</sequence>
       </processStatePK>
-      <stateName>Visita não Feita</stateName>
-      <stateDescription>Visita não Feita</stateDescription>
+      <stateName>Ação Não Realizada</stateName>
+      <stateDescription>Ação Não Realizada</stateDescription>
       <instruction>Atividade final do processo</instruction>
       <deadlineTime>0</deadlineTime>
       <joint>false</joint>
@@ -297,8 +297,8 @@
         <version>1</version>
         <sequence>14</sequence>
       </processStatePK>
-      <stateName>Visita Concluida sem Venda</stateName>
-      <stateDescription>Visita Concluida sem Venda</stateDescription>
+      <stateName>Ação Realizada Sem Sucesso</stateName>
+      <stateDescription>Ação Realizada Sem Sucesso</stateDescription>
       <instruction>Atividade final do processo</instruction>
       <deadlineTime>0</deadlineTime>
       <joint>false</joint>
@@ -491,19 +491,19 @@
 	
 	if (sequenceId == 8) {
 
-		hAPI.setCardValue(&apos;resultadoAcao&apos;, &apos;1-Ação Não Realizada&apos;);
+		hAPI.setCardValue(&apos;resultadoAcao&apos;, &apos;1&apos;);
 		
 	}
 
 	if (sequenceId == 6) {
 
-		hAPI.setCardValue(&apos;resultadoAcao&apos;, &apos;2-Ação Realizada Com Sucesso&apos;);
+		hAPI.setCardValue(&apos;resultadoAcao&apos;, &apos;2&apos;);
 
 	}
 
 	if (sequenceId == 14) {
 
-		hAPI.setCardValue(&apos;resultadoAcao&apos;, &apos;3-Ação Realizada Sem Sucesso&apos;);
+		hAPI.setCardValue(&apos;resultadoAcao&apos;, &apos;3&apos;);
 		
 	}
 	

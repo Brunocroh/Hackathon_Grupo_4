@@ -26,7 +26,7 @@
       </children>
     </children>
     <children active="true" visible="true" xsi:type="pi:ContainerShape">
-      <graphicsAlgorithm filled="false" height="35" lineVisible="false" lineWidth="1" transparency="0.0" width="35" x="212" xsi:type="al:Ellipse" y="83">
+      <graphicsAlgorithm filled="false" height="35" lineVisible="false" lineWidth="1" transparency="0.0" width="35" x="180" xsi:type="al:Ellipse" y="77">
         <graphicsAlgorithmChildren height="35" lineWidth="1" style="/0/@styles.5" transparency="0.0" width="35" xsi:type="al:Ellipse"/>
       </graphicsAlgorithm>
       <link businessObjects="startevent3"/>
@@ -70,7 +70,7 @@
       </anchors>
     </children>
     <children active="true" visible="true" xsi:type="pi:ContainerShape">
-      <graphicsAlgorithm filled="false" height="78" lineVisible="false" lineWidth="1" transparency="0.0" width="106" x="142" xsi:type="al:Rectangle" y="326"/>
+      <graphicsAlgorithm filled="false" height="78" lineVisible="false" lineWidth="1" transparency="0.0" width="106" x="140" xsi:type="al:Rectangle" y="290"/>
       <link businessObjects="task10"/>
       <anchors incomingConnections="/0/@connections.3" outgoingConnections="/0/@connections.4 /0/@connections.5 /0/@connections.6" xsi:type="pi:ChopboxAnchor"/>
       <anchors active="true" referencedGraphicsAlgorithm="/0/@children.6/@graphicsAlgorithm" relativeHeight="0.51" relativeWidth="1.0" visible="true" xsi:type="pi:BoxRelativeAnchor">
@@ -827,11 +827,11 @@
   <bpmn2:BpmnSwimLane cores="ffffff" id="bpmnswimlane2" name="Vendedor"/>
   <bpmn2:BpmnStartEvent emAtrasoNotificarResponsavel="false" emAtrasoNotificarResponsavelFrequencia="0.0" emAtrasoNotificarResponsavelTolerancia="0.0" esforcoCalculo="0" expediente="" extendedFields="&lt;list/&gt;" id="startevent3" name="In&#237;cio" notificaResponsavel="true" outgoing="flow5" signalId="0" type="10"/>
   <bpmn2:BpmnTask authNotify="true" emAtrasoNotificarResponsavel="false" emAtrasoNotificarResponsavelFrequencia="0.0" emAtrasoNotificarResponsavelTolerancia="0.0" esforcoCalculo="0" executionAttempts="0" expediente="Default" extendedFields="&lt;list/&gt;" frequency="0" id="task4" incoming="flow5" loopType="0" managerMechanism="" name="Executar A&#231;&#227;o de Vendas" outgoing="flow7 flow9 flow11 flow16" prazoConclusao="30.0" type="80"/>
-  <bpmn2:BpmnEndEvent extendedFields="&lt;list/&gt;" id="endevent6" incoming="flow7 flow12" name="Visita Concluida Com Venda" signalId="0" type="60"/>
-  <bpmn2:BpmnEndEvent extendedFields="&lt;list/&gt;" id="endevent8" incoming="flow9 flow13" name="Visita n&#227;o Feita" signalId="0" type="60"/>
+  <bpmn2:BpmnEndEvent extendedFields="&lt;list/&gt;" id="endevent6" incoming="flow7 flow12" name="A&#231;&#227;o Realizada Com Sucesso" signalId="0" type="60"/>
+  <bpmn2:BpmnEndEvent extendedFields="&lt;list/&gt;" id="endevent8" incoming="flow9 flow13" name="A&#231;&#227;o N&#227;o Realizada" signalId="0" type="60"/>
   <bpmn2:BpmnTask authNotify="true" emAtrasoNotificarResponsavel="false" emAtrasoNotificarResponsavelFrequencia="0.0" emAtrasoNotificarResponsavelTolerancia="0.0" esforcoCalculo="0" executionAttempts="0" expediente="Default" extendedFields="&lt;list/&gt;" frequency="0" id="task10" incoming="flow11" loopType="0" managerMechanism="" name="Tentar Novamente Depois" outgoing="flow12 flow13 flow15" prazoConclusao="30.0" type="80"/>
-  <bpmn2:BpmnEndEvent extendedFields="&lt;list/&gt;" id="endevent14" incoming="flow15 flow16" name="Visita Concluida sem Venda" signalId="0" type="60"/>
-  <bpmn2:BpmnProcess author="" cardIndex="194" category="" complementsLevel="1" expedient="Default" extendedFields="&lt;list/&gt;" formSource="server" id="Mapa para a Venda" instruction="" mobileReady="true" name="A&#231;&#245;es do Mapa da Venda " notifyRequisitionerComplements="true" notifyResponsibleComplements="true" serverId="Hackathonv2" version="6" volume="Default"/>
+  <bpmn2:BpmnEndEvent extendedFields="&lt;list/&gt;" id="endevent14" incoming="flow15 flow16" name="A&#231;&#227;o Realizada Sem Sucesso" signalId="0" type="60"/>
+  <bpmn2:BpmnProcess author="" cardIndex="194" category="" complementsLevel="1" expedient="Default" extendedFields="&lt;list/&gt;" formSource="server" id="Mapa para a Venda" instruction="" mobileReady="true" name="A&#231;&#245;es do Mapa da Venda " notifyRequisitionerComplements="true" notifyResponsibleComplements="true" serverId="Hackathonv2" version="8" volume="Default"/>
   <bpmn2:SequenceFlow atividadeFluxo="" atividadeRetorno="" extendedFields="&lt;list/&gt;" id="flow5" name="" sourceRef="startevent3" targetRef="task4"/>
   <bpmn2:SequenceFlow atividadeFluxo="" atividadeRetorno="" extendedFields="&lt;list/&gt;" id="flow7" name="" sourceRef="task4" targetRef="endevent6"/>
   <bpmn2:SequenceFlow atividadeFluxo="" atividadeRetorno="" extendedFields="&lt;list/&gt;" id="flow9" name="" sourceRef="task4" targetRef="endevent8"/>
