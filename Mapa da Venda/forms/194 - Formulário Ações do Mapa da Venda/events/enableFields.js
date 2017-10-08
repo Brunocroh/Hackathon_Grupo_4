@@ -1,6 +1,6 @@
 function enableFields(form) {
 	var activity = getValue('WKNumState');
-	if (activity >= 0) {
+	if (activity > 3) {
 		form.setEnabled('codCliente', false);
 		form.setEnabled('razaoSocial', false);
 		form.setEnabled('nomeFantasia', false);

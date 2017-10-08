@@ -38,17 +38,20 @@
 
 	function getLocationUpdate() {
 
-		
 		alert("ponto 1");
 		
 		/* COLOCAR LOCAL PARA VENDA */		
 		var lmobile = isMobile();
 
-		var cEnd = $('input[name="logradouro"]').val() + "+"
-		  		 + $('input[name="numero"]').val() + "+"
-				 + $('input[name="cidade"]').val() + "+"
+		var cEnd = $('input[name="logradouro"]').val() + ",+,"
+		  		 + $('input[name="numero"]').val() + ",+,"
+				 + $('input[name="cidade"]').val() + ",+,"
 				 + $('input[name="estado"]').val();
+		
+		cEnd = cEnd.replace(/\ /g,"+");
+		cEnd = cEnd.replace(/\%20/g,"+");
 
+		alert("Endereço =>" + cEnd);
 		alert("ponto 2" + lmobile);
 
 		/* COLOCAR LOCAL PARA VENDA */
@@ -56,43 +59,50 @@
 
 			var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
 					+ cEnd
-					+ "&zoom=16&size=251x251&sensor=true&markers=color:blue%7Clabel:L%7C"
-					+ cEnd;
+					+ "&zoom=16&size=251x251&markers=" + cEnd + "&sensor=true";
 
 		} else {
 			var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
 					+ cEnd
-					+ "&zoom=16&size=501x301&sensor=false&markers=color:blue%7Clabel:L%7C"
-					+ cEnd;
-
+					+ "&zoom=16&size=501x301&markers=" + cEnd + "&sensor=false";
+			
 		}
 		
 		alert("ponto 3");
 		
-		var hRef_wazeUrl = 'https://waze.com/ul?q=' + img_url.replace("+","%20");
-			hRef_wazeUrl = hRef_wazeUrl.replace(" ","%20") ;
+		var hRef_wazeUrl = 'https://waze.com/ul?q=' + cEnd.replace(/\,+,/g,"%20");
+		hRef_wazeUrl = hRef_wazeUrl.replace(/\+/g,"%20");
+		hRef_wazeUrl = hRef_wazeUrl.replace(/\ /g,"%20");
+		
+		alert("ponto 4444->>" + hRef_wazeUrl);
+
 
 		document.getElementById("mapLinkWazeCliente").innerHTML = "<a href='" + hRef_wazeUrl + "'>Acesse o Waze</a>";		
+		
+
+		alert("MAPA DO DESTINO" + img_url);
+		
 		document.getElementById("mapCliente").innerHTML = "<img src='"+img_url+"'>";
 				
-		var hRef_TelUrl = img_url.replace("-","");
-		var hRef_TelUrl = hRef_TelUrl.replace(" ","");
-		var hRef_TelUrl = hRef_TelUrl.replace(".","");
+		var hRef_TelUrl = $('input[name="telefone"]').val();
+		var hRef_TelUrl = hRef_TelUrl.replace(/\-/g,"");
+		var hRef_TelUrl = hRef_TelUrl.replace(/\ /g,"");
+		var hRef_TelUrl = hRef_TelUrl.replace(/\./g,"");
 		
-		var hRef_CelUrl = img_url.replace("-","");
-		var hRef_CelUrl = hRef_CelUrl.replace(" ","");
-		var hRef_CelUrl = hRef_CelUrl.replace(".","");
+		var hRef_CelUrl = $('input[name="celular"]').val();
+		var hRef_CelUrl = hRef_CelUrl.replace(/\-/g,"");
+		var hRef_CelUrl = hRef_CelUrl.replace(/\ /g,"");
+		var hRef_CelUrl = hRef_CelUrl.replace(/\./g,"");
 		
-		document.getElementById("linkTelefone").innerHTML = "<a href=tel://'" + hRef_TelUrl + "'>Ligar Telefone</a>";
+		document.getElementById("linkTelefone").innerHTML = "<a href='tel://" + hRef_TelUrl + "'>Ligar Telefone</a>";
 		
-		document.getElementById("linkCelular").innerHTML = "<a href=tel://'" + hRef_CelUrl + "'>Ligar Celular</a>";
+		document.getElementById("linkCelular").innerHTML = "<a href='tel://" + hRef_CelUrl + "'>Ligar Celular</a>";
 		
 		alert("ponto 4");
 
 		
 		/* COLOCAR LOCAL PARA VENDA */
-		
-		
+	
 		if (navigator.geolocation) {
 			// timeout at 60000 milliseconds (60 seconds)
 			var options = {
@@ -134,12 +144,12 @@
 		{
 		  
 	      var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
-		        +latlon+"&zoom=16&size=251x251&sensor=true&markers=color:blue%7Clabel:L%7C"+latlon
+		        +latlon+"&zoom=16&size=251x251&sensor=true&markers=label:L%7C"+latlon;
 		  
 		}
 	    else {
 		      var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
-	   		        +latlon+"&zoom=16&size=501x301&sensor=false&markers=color:blue%7Clabel:L%7C"+latlon
+	   		        +latlon+"&zoom=16&size=501x301&sensor=false&markers=label:L%7C"+latlon;
 	    	  
 	    	  
 	    }
@@ -157,6 +167,7 @@
 		}
 
 	}
+	
 </script>
 
 
@@ -440,33 +451,19 @@
 
 		<div class="form-field" data-type="textbox" data-show-properties=""
 			data-field-name="vlVendido">
-
-			<label style="white-space: normal;" class="label-field-properties">Valor
-				de Venda</label><span class="is-required"><b>*</b></span>
-			<div class="form-input">
-				<input type="text" name="vlVendido" value="" placeholder=""
-					class="small" maxlength="22" mask="#00.000.000.000.000,00"
-					data-only-numbers="true">
-			</div>
-
-		</div>
-
-		<div class="form-field" data-type="combo" data-show-properties=""
-			data-field-name="resultadoAcao">
+			
 			<div class="form-input">
 				<div class="form-group">
-					<label>Resultado Ação</label><select class="form-control"
-						name="resultadoAcao"><option value="Ação Não Realizada">1-Ação
-							Não Realizada</option>
-						<option value="Ação Realizada Com Sucesso">2-Ação
-							Realizada Com Sucesso</option>
-						<option value="Ação Realizada Sem Sucesso">3-Ação
-							Realizada Sem Sucesso</option></select>
+				
+					<label>Valor de Venda</label>										
+					<input type="text" name="vlVendido" value="" placeholder="" class="form-control"
+					data-size="small" style="width: 25%;" data-only-numbers="true" maxlength="22" mask="#00.000.000.000.000,00">
+					
 				</div>
 			</div>
+			
 		</div>
-
-
+	
 		<div class="form-field" data-type="combo" data-show-properties=""
 			data-field-name="resultadoAcao">
 			<div class="form-input">
