@@ -13,6 +13,7 @@ var MapaGuerra = SuperWidget.extend({
     arrayCnae: [],
     arrayCampanha: [],
     mapaLoad: null,
+    cnpjsClientes: [],
     xmlWorkflowEngineService: {
         "startProcess": "",
 	},
@@ -99,9 +100,9 @@ var MapaGuerra = SuperWidget.extend({
         	
         	_this.clientesMap.push(representanteMap);
         	
-        	if (tipoCliente == "1" || tipoCliente == "3") {
-        		_this.loadClientesByRepresentante();
-        	}
+        	//if (tipoCliente == "1" || tipoCliente == "3") {
+        	_this.loadClientesByRepresentante();
+        	//}
         	
         	if (tipoCliente == "2" || tipoCliente == "3") {
         		_this.loadNaoClientes();
@@ -153,7 +154,11 @@ var MapaGuerra = SuperWidget.extend({
     	var _this = this;
     	var idRepresentante = $('#slRepresentante', _this.sGetContext()).val();
     	var range = $('#slRange', _this.sGetContext()).val();
-    	    	
+    	
+    	_this.cnpjsClientes = [];
+    	
+    	var tipoCliente = $('#slTipoCliente', _this.sGetContext()).val();
+    	
     	var cCli = [];
 		var c1 = DatasetFactory.createConstraint('metadata#active', true, true, ConstraintType.MUST);
     	var c2 = DatasetFactory.createConstraint('codRep', idRepresentante, idRepresentante, ConstraintType.MUST);
@@ -178,12 +183,19 @@ var MapaGuerra = SuperWidget.extend({
                 	html += 	'<br/><a href="tel://' + el.celular + '">Ligar Celular</a>';
                 	html += '</div>';
         			
-        			_this.clientesMap.push({
-                    	latitude: el.latitude,
-                    	longitude: el.longitude,
-                        html: html,
-                        icon: _this.getIconColor("2")
-                    });
+                	
+                	_this.cnpjsClientes.push(el.cnpj);
+                	
+                	if (tipoCliente == "1" || tipoCliente == "3") {
+                		_this.clientesMap.push({
+                        	latitude: el.latitude,
+                        	longitude: el.longitude,
+                            html: html,
+                            icon: _this.getIconColor("2")
+                        });
+                	}
+                	
+        			
         		}
         	});
         }
@@ -215,28 +227,30 @@ var MapaGuerra = SuperWidget.extend({
             async: false
         });
     	    	
-    	$(clientes).each(function(index, el){
-    		_this.arrayCampanha.push(el);
-    		
-    		var nome = el.nomeFantasia == null || el.nomeFantasia == 'null' ? el.razaoSocial : el.nomeFantasia;
-    		
-    		var html = '';
+    	$(clientes).each(function(index, el) {
+    		if (_this.cnpjsClientes.indexOf(el.cnpj) < 0) {
+    			_this.arrayCampanha.push(el);
+        		
+        		var nome = el.nomeFantasia == null || el.nomeFantasia == 'null' ? el.razaoSocial : el.nomeFantasia;
+        		
+        		var html = '';
 
-        	html += '<div style="width: 300px;"><h4 style="margin-bottom: 8px;">'+nome+'</h4>';
-        	html += 	'<br/>'+el.cnpj;
-        	html += 	'<br/>'+el.logradouro + ' ' + el.numero;  
-        	html += 	'<br/>'+el.bairro;
-        	html += 	'<br/>'+el.cep;
-        	html += 	'<br/>'+el.cidade;
-        	html += 	'<br/>Qt Funcionários: '+el.qtdeFuncionarios;
-        	html += '</div>';
-    		
-    		_this.clientesMap.push({
-            	latitude: el.latitude,
-            	longitude: el.longitude,
-                html: html,
-                icon: _this.getIconColor("1")
-            });
+            	html += '<div style="width: 300px;"><h4 style="margin-bottom: 8px;">'+nome+'</h4>';
+            	html += 	'<br/>'+el.cnpj;
+            	html += 	'<br/>'+el.logradouro + ' ' + el.numero;  
+            	html += 	'<br/>'+el.bairro;
+            	html += 	'<br/>'+el.cep;
+            	html += 	'<br/>'+el.cidade;
+            	html += 	'<br/>Qt Funcionários: '+el.qtdeFuncionarios;
+            	html += '</div>';
+        		
+        		_this.clientesMap.push({
+                	latitude: el.latitude,
+                	longitude: el.longitude,
+                    html: html,
+                    icon: _this.getIconColor("1")
+                });
+    		}
     	});
     },
     
@@ -592,7 +606,7 @@ var MapaGuerra = SuperWidget.extend({
                 _this.xmlWorkflowEngineService["startProcess"].find("[name=tpCliente]").text(campanha.tpCliente);
             }
             else {
-            	_this.xmlWorkflowEngineService["startProcess"].find("[name=CEP]").text(campanha.CEP);
+            	_this.xmlWorkflowEngineService["startProcess"].find("[name=CEP]").text(campanha.cep);
                 _this.xmlWorkflowEngineService["startProcess"].find("[name=bairro]").text(campanha.bairro);
                 _this.xmlWorkflowEngineService["startProcess"].find("[name=celular]").text("");
                 _this.xmlWorkflowEngineService["startProcess"].find("[name=cidade]").text(campanha.cidade);
@@ -658,6 +672,8 @@ var MapaGuerra = SuperWidget.extend({
     	$('.collapse-icon.up', _this.sGetContext()).click();
     	
     	_this.representante = null;
+    	
+    	_this.arrayTamanhos = [];
     	
     	_this.vLoadMap();
     },

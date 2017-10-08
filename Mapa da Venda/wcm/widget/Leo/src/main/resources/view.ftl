@@ -26,7 +26,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12 form-group">
-							        <lable for="slRange">Filtro</lable>
+							        <lable for="slRange">Quantidade de dias sem compra</lable>
 							        <select id="slRange" name="slRange" class="form-control" data-view-changeRange>
 							        	<option value=""></option>
 							        	<option value="30">30</option>
@@ -131,7 +131,7 @@
 							</div>
 				        </div>
 				        <div class="col-md-9">
-							<section id="google-map" class="gmap" style="height: 456px;"></section>
+							<section id="google-map" class="gmap" style="height: 800px;"></section>
 							<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDTmEWjcmSUco-dpbyiZ3oPHUHTNOORDKk"></script>
 						</div>
 					</div>
