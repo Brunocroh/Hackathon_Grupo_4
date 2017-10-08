@@ -23,6 +23,8 @@
 <link
 	href='/webdesk/customresources?cid=1&resourceName=temaFormulario/0.css'
 	type='text/css' rel='stylesheet' />
+
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 	
 <script>
 
@@ -61,14 +63,16 @@
 
 			var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
 					+ cEnd
-					+ "&zoom=16&size=251x251&markers=" + cEnd + "&sensor=true";
-
+					+ "&zoom=16&size=300x200&markers=" + cEnd + "&sensor=false&key=AIzaSyA_hcdMJgB3vGhrf7qxVV3q_Fls3-po_xA";
+			
 		} else {
+			
 			var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
 					+ cEnd
-					+ "&zoom=16&size=501x301&markers=" + cEnd + "&sensor=false";
+					+ "&zoom=16&size=501x301&markers=" + cEnd + "&sensor=false&key=AIzaSyA_hcdMJgB3vGhrf7qxVV3q_Fls3-po_xA";
 			
 		}
+		
 		
 		img_url = encodeURI(img_url);
 				
@@ -79,7 +83,42 @@
 		document.getElementById("mapLinkWazeCliente").innerHTML = "<a href='" + hRef_wazeUrl + "'>Acesse o Waze</a>";		
 		
 		document.getElementById("mapCliente").innerHTML = "<img src='"+img_url+"'>";
-				
+		
+		/*
+		console.log("ponto 1");
+		
+		    map = new OpenLayers.Map("mapCliente");
+		    
+		    console.log("ponto 2");
+		    
+		    map.addLayer(new OpenLayers.Layer.OSM());
+		
+		    console.log("ponto 3");
+		    
+		    var lonLat = new OpenLayers.LonLat( lat ,longi )
+		          .transform(
+		            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+		            map.getProjectionObject() // to Spherical Mercator Projection
+		          );
+		    
+		    console.log("ponto 4");
+		          
+		    var zoom=16;
+		
+		    var markers = new OpenLayers.Layer.Markers( "Markers" );
+		    map.addLayer(markers);
+		    
+		    console.log("ponto 5");
+		    
+		    markers.addMarker(new OpenLayers.Marker(lonLat));
+		    
+		    console.log("ponto 6");
+		    
+//		    map.setCenter (lonLat, zoom);
+		
+		    console.log("ponto 7");
+		**/		    
+		    
 		var hRef_TelUrl = $('input[name="telefone"]').val();
 		var hRef_TelUrl = hRef_TelUrl.replace(/\-/g,"");
 		var hRef_TelUrl = hRef_TelUrl.replace(/\ /g,"");
@@ -107,7 +146,7 @@
 			watchID = geoLoc.watchPosition(showLocation, errorHandler, options);
 
 		} else {
-			alert("Desculpe, esse dispositivo não suporta geolocalização!");
+			console.log("Desculpe, esse dispositivo não suporta geolocalização!");
 		}
 
 	}
@@ -154,9 +193,9 @@
 	function errorHandler(err) {
 
 		if (err.code == 1) {
-			alert("Erro: Acesso negado!");
+			console.log("Erro: Acesso negado!");
 		} else if (err.code == 2) {
-			alert("Error: Posição está indisponível!");
+			console.log("Error: Posição está indisponível!");
 		}
 
 	}
@@ -187,6 +226,19 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="form-field" data-type="textbox" data-show-properties=""
+			data-field-name="nmCampanha"
+			style="position: relative; left: 0px; top: 0px;">
+			<div class="form-input">
+				<div class="form-group">
+					<label>Nome Campanha</label><input type="text" class="form-control"
+						name="nmCampanha" value="" placeholder="" data-size="medium"
+						style="width: 50%;">
+				</div>
+			</div>
+		</div>
+		
 		<div class="form-field" data-type="textbox" data-show-properties=""
 			data-field-name="codCliente">
 			<div class="form-input">
@@ -228,19 +280,7 @@
 				</div>
 			</div>
 		</div>
-		
-		<div class="form-field" data-type="textbox" data-show-properties=""
-			data-field-name="atividade">
-			<div class="form-input">
-				<div class="form-group">
-					<label>Atividade</label><input type="text" class="form-control"
-						name="atividade" value="" placeholder="" data-size="medium"
-						style="width: 50%;">
-				</div>
-			</div>
-		</div>
-		
-		
+				
 		<div class="form-field" data-type="textbox" data-show-properties=""
 			data-field-name="telefone">
 			<div class="form-input">
@@ -454,7 +494,6 @@
 					
 				</div>
 			</div>
-			
 		</div>
 	
 		<div class="form-field" data-type="combo" data-show-properties=""
